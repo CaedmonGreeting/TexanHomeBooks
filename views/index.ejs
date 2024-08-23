@@ -1,0 +1,44 @@
+<%- include("partials/header.ejs") %>
+
+<main>
+
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Books in my Texan Home</h1>
+      <p class="lead text-muted">The following is a list of the books found in the bookcases of our home. I have made notes on why I keep them and how I acquired each book.</p>
+    </div>
+  </div>
+</section>
+
+<div class="py-5 bg-light">
+  <div class="container">
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <% books.forEach((book) => {%>
+      <div class="col">
+        
+        <div class="card shadow-sm d-flex align-items-center">
+          <img width="50%" height="225" src="<%= API_URL %>/isbn/<%= book.isbn %>-M.jpg" >
+
+          <div class="card-body">
+            <p class="card-text"><span class="underlinedTitle"><%= book.title %></span> by <%= book.author %><br>Publication Year: <%= book.publishyear %><br><%= book.whykept %></p>
+            
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <a href="<%= book.amazon %>" class="btn btn-sm btn-outline-secondary" role="button" target="SingleSecondaryWindowName" aria-pressed="true">Amazon</a>
+                <a href="<%= book.openlibrary %>" class="btn btn-sm btn-outline-secondary" role="button" target="SingleSecondaryWindowName" aria-pressed="true">Open Library</a>
+              </div>
+              <small class="text-muted"><%= book.acquired %></small>
+            </div>
+          </div>          
+        </div>        
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<%- include("partials/footer.ejs") %>

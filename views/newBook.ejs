@@ -1,0 +1,118 @@
+<%- include('partials/header.ejs'); -%>
+
+<div class="container">
+  <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 g-3">
+  <div class="col">
+  <div class="box" id="heading">
+    <h1>New Book
+    </h1>
+  </div>
+  <div class="box py-5">
+      <div class="book">
+
+        <form  action="/add" method="post">
+          <input type="text" name="newTitle" placeholder="Title" autocomplete="off" autofocus="true" required/>
+          <input type="text" name="newAuthor" placeholder="Author" autocomplete="off" autofocus="true" required/>
+          <input type="number" name="newPublishYear" placeholder="Year Published" autocomplete="off" autofocus="true" required />
+          <input type="text" name="newIsbn" placeholder="ISBN" autocomplete="off" autofocus="true" required/>
+          <input type="text" name="newAmazon" placeholder="Amazon Link" autocomplete="off" autofocus="true" required/>
+          <input type="text" name="newOpenLibrary" placeholder="OpenLibrary Link" autocomplete="off" autofocus="true"required />
+          <input type="text" name="newAcquired" placeholder="How was it Acquired" autocomplete="off" autofocus="true" required/>
+          <input type="text" name="newWhyKept" placeholder="Why we kept the book" autocomplete="off" autofocus="true" required />
+          <button class="add" type="submit" name="newBook" >+</button>
+        </form>
+      </div>
+      </div>
+</div>
+
+<div class="col">
+  <div class="box" id="heading">
+    <h1>Current Books
+    </h1>
+  </div>
+  <div class="box py-5">
+    <% books.forEach((book) => {%>
+      <div class="book">
+        <form action="/delete" method="post">
+          <input type="checkbox" name="deleteBookId" value="<%= book.id %>" data-bs-toggle="modal" data-bs-target="#runModal<%=book.id%>" >
+        </form>
+    
+         <!-- Modal -->
+         <div class="modal fade" id="runModal<%=book.id%>" tabindex="-1" aria-labelledby="runModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+           <div class="modal-content">
+                  
+            <div class="modal-header">
+                <h5 class="modal-title" id="runModalLabel">Delete Post</h5>
+                   <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                  
+                        <div class="modal-body container">
+                          <div class="row">
+                            <div class="col">Are you sure that you want to delete this post?</div>
+                          </div>                              
+                        </div>
+                  
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                          <a type="button" class="btn btn-danger" href="/delete/<%=book.id%>">YES</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div> 
+
+        <p id="title<%=book.id%>"><%= book.title %></p>
+
+        <form class="edit" action="/edit" method="post">
+          <input type="hidden" name="updatedBookId" value="<%= book.id %>">
+          <input id="inputTitle<%= book.id %>" type="text" name="updatedBookTitle" value="<%= book.title %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+          <input id="inputAuthor<%= book.id %>" type="text" name="updatedBookAuthor" value="<%= book.author %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+          <input id="inputPublishYear<%= book.id %>" type="number" name="updatedBookPublishYear" value="<%= book.publishyear %>"
+            autofocus="true" hidden="true" />
+            <input id="inputIsbn<%= book.id %>" type="number" name="updatedBookIsbn" value="<%= book.isbn %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+            <input id="inputAmazon<%= book.id %>" type="text" name="updatedBookAmazon" value="<%= book.amazon %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+          <input id="inputOpenLibrary<%= book.id %>" type="text" name="updatedBookOpenLibrary" value="<%= book.openlibrary %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+          <input id="inputAcquired<%= book.id %>" type="text" name="updatedBookAcquired" value="<%= book.acquired %>"
+            autofocus="true" hidden="true" />
+            <input id="inputWhyKept<%= book.id %>" type="text" name="updatedBookWhyKept" value="<%= book.whykept %>" autocomplete="off"
+            autofocus="true" hidden="true" />
+            <button id="done<%= book.id %>" class="edit" type="submit" hidden><img class="icon"
+              src="/assets/icons/check-solid.svg" alt="tick image"></button>
+            </form>
+
+           <button id="edit<%= book.id %>" class="edit" onclick="handler('<%= book.id %>')"><img class="icon"
+            src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>     
+      </div>
+      <% }); %>
+
+    </div>  
+  </div>
+</div>
+    </div>
+
+  <script>
+    function handler(id) {
+      document.getElementById("title" + id).setAttribute("hidden", true)
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+      document.getElementById("done" + id).removeAttribute("hidden")
+      document.getElementById("inputTitle" + id).removeAttribute("hidden")
+      document.getElementById("inputAuthor" + id).removeAttribute("hidden")
+      document.getElementById("inputPublishYear" + id).removeAttribute("hidden")
+      document.getElementById("inputIsbn" + id).removeAttribute("hidden")
+      document.getElementById("inputAmazon" + id).removeAttribute("hidden")
+      document.getElementById("inputOpenLibrary" + id).removeAttribute("hidden")
+      document.getElementById("inputAcquired" + id).removeAttribute("hidden")
+      document.getElementById("inputWhyKept" + id).removeAttribute("hidden")
+    }
+
+  </script>
+  </div>
+
+  <%- include('partials/footer.ejs'); -%>
